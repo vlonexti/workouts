@@ -1,0 +1,260 @@
+/* Workouts: a sign system. Saturated yellow panels that own whole regions, black type, white pictograms on black
+   squares, and one grey-white ground for everything that is a list. See DESIGN.md. */
+
+@font-face { font-family: "Fira Sans"; font-weight: 400; font-display: swap; src: url("../fonts/fira-sans-400.woff2") format("woff2"); }
+@font-face { font-family: "Fira Sans"; font-weight: 500; font-display: swap; src: url("../fonts/fira-sans-500.woff2") format("woff2"); }
+@font-face { font-family: "Fira Sans"; font-weight: 700; font-display: swap; src: url("../fonts/fira-sans-700.woff2") format("woff2"); }
+@font-face { font-family: "Fira Sans"; font-weight: 800; font-display: swap; src: url("../fonts/fira-sans-800.woff2") format("woff2"); }
+
+:root {
+  --yellow: #ffcc00;
+  --black: #0b0b0b;
+  --frame: #1a1a1a;
+  --ground: #efefec;
+  --panel: #ffffff;
+  --rule: #cfcec7;
+  --ink: #0b0b0b;
+  --ink-2: #45443f;          /* secondary text on the ground and on white */
+  --on-yellow-2: #3a2f00;    /* secondary text on yellow: the yellow's own dark, never grey */
+  --on-black-2: #c9c7bd;
+  --good: #14633a;
+  --bad: #b3261e;
+  --radius: 6px;
+  --bar: 68px;               /* the navigation bar on a phone */
+  --rail: 232px;             /* and beside the page on a wide screen */
+  --font: "Fira Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--ground); color: var(--ink); font-family: var(--font); font-size: 106.25%; line-height: 1.45; -webkit-text-size-adjust: 100%; scrollbar-color: var(--black) var(--ground); }
+body { margin: 0; min-height: 100dvh; font-variant-numeric: tabular-nums; }
+::selection { background: var(--black); color: var(--yellow); }
+h1, h2, h3, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--black); outline-offset: 3px; }
+#nav :focus-visible, .sign.rest :focus-visible { outline-color: var(--yellow); }
+[hidden] { display: none !important; }
+
+#view { padding-bottom: calc(var(--bar) + env(safe-area-inset-bottom, 0px)); }
+
+/* ---------- pictograms ---------- */
+.picto { display: inline-grid; place-items: center; flex: none; width: 52px; height: 52px; background: var(--black); color: #fff; border-radius: 4px; }
+.picto.small { width: 36px; height: 36px; }
+.picto.small svg { width: 25px; height: 25px; }
+
+/* ---------- the sign ---------- */
+.sign { background: var(--yellow); color: var(--ink); padding: calc(18px + env(safe-area-inset-top, 0px)) 22px 16px; min-height: 46dvh; display: flex; flex-direction: column; }
+.sign-top { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--black); font-size: 15px; font-weight: 700; }
+.sign-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-top: 18px; }
+.sign-title { font-size: 1.75rem; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; text-wrap: balance; }
+.sign-line { font-size: 1rem; font-weight: 500; margin-top: 4px; }
+.sign-big { display: flex; align-items: flex-end; gap: 10px; margin-top: auto; padding-top: 14px; }
+.sign-big { --sign-bg: var(--yellow); perspective: 900px; }
+.sign.rest .sign-big { --sign-bg: var(--black); }
+.sign-figure { position: relative; display: block; font-size: clamp(7rem, 44vw, 11.5rem); font-weight: 800; line-height: .8; letter-spacing: -.035em; margin-left: -.03em; font-variant-numeric: proportional-nums; }
+.sign.rest .sign-figure { font-variant-numeric: tabular-nums; }
+.fig-new { display: block; }
+.sign-figure.l4 { font-size: clamp(5.4rem, 33vw, 9rem); }
+.sign-figure.l5 { font-size: clamp(4.2rem, 26vw, 7.4rem); }
+.sign-unit { font-size: 1.5rem; font-weight: 800; padding-bottom: .1em; }
+.sign-picto { width: 64px; height: 64px; }
+.sign-picto svg { width: 45px; height: 45px; }
+.sign-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; margin-top: 18px; padding-top: 10px; border-top: 2px solid var(--black); font-size: 15px; font-weight: 500; }
+.sign-next { display: inline-flex; align-items: center; gap: 8px; text-align: right; white-space: nowrap; }
+.arrow-box { display: inline-grid; place-items: center; width: 24px; height: 24px; background: var(--black); color: #fff; border-radius: 3px; }
+.sign.rest .arrow-box { background: var(--yellow); color: var(--black); }
+/* resting: the panel goes dark and the clock is lit in yellow */
+.sign.rest { background: var(--black); color: var(--yellow); }
+.sign.rest .sign-line { color: var(--on-black-2); }
+.sign.rest .sign-top, .sign.rest .sign-foot { border-color: var(--yellow); color: #fff; }
+.sign.rest .picto { background: var(--yellow); color: var(--black); }
+/* The split-flap. Three leaves lie over the new figure: the old top half, which falls forward on the midline;
+   the old bottom half, which stays until the fall is half done; and the new bottom half, which lands on it. */
+.sign-figure i { position: absolute; inset: 0; white-space: nowrap; font-style: normal; background: var(--sign-bg); pointer-events: none; opacity: 0; }
+.sign-figure.flap .fig-top { clip-path: inset(-6% -60% 50% -4%); animation: flap-fall .19s cubic-bezier(.5, 0, 1, .7) both; }
+.sign-figure.flap .fig-old { clip-path: inset(50% -60% -12% -4%); animation: flap-hold .19s steps(1, end) both; }
+.sign-figure.flap .fig-land { clip-path: inset(50% -4% -12% -4%); animation: flap-land .21s .19s var(--ease) both; }
+@keyframes flap-fall { from { opacity: 1; transform: rotateX(0); } to { opacity: 1; transform: rotateX(-90deg); } }
+@keyframes flap-hold { from { opacity: 1; } to { opacity: 0; } }
+@keyframes flap-land { from { opacity: 1; transform: rotateX(90deg); } to { opacity: 1; transform: rotateX(0); } }
+html[data-motion="off"] .sign-figure i { display: none; }
+
+/* ---------- under the sign ---------- */
+.work { padding: 18px 22px 28px; display: grid; gap: 14px; align-content: start; }
+.block { display: grid; gap: 8px; margin-top: 10px; }
+.block h2, .page h2 { font-size: 1.05rem; font-weight: 800; }
+.aside { color: var(--ink-2); font-size: 15px; max-width: 62ch; }
+.aside.tight { margin-top: -4px; }
+.notice { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; background: var(--panel); border: 2px solid var(--black); border-radius: var(--radius); font-weight: 500; font-size: 15.5px; }
+.notice svg { flex: none; margin-top: 2px; }
+.problem { color: var(--bad); font-weight: 500; font-size: 15px; min-height: 0; }
+.problem:empty { display: none; }
+.empty { color: var(--ink-2); padding: 14px 0; }
+.lonely { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); }      /* what undoes or erases stands apart */
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 18px; background: var(--panel); color: var(--ink); border: 2px solid var(--black); border-radius: var(--radius); font-weight: 700; font-size: 1rem; text-decoration: none; cursor: pointer; transition: background-color .12s, color .12s; }
+.btn:hover { background: var(--yellow); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn.primary, .btn.dark { background: var(--black); color: #fff; }
+.btn.primary:hover, .btn.dark:hover { background: var(--frame); color: var(--yellow); }
+.btn.big { min-height: 68px; font-size: 1.25rem; font-weight: 800; width: 100%; }
+.btn.small { min-height: 40px; padding: 0 12px; font-size: 15px; }
+.btn.quiet { border-color: transparent; background: none; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; padding: 0 6px; }
+.btn.quiet:hover { background: none; border-color: var(--black); }
+.btn.danger { border-color: var(--bad); color: var(--bad); }
+.btn.danger:hover { background: var(--bad); color: #fff; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.adjust { display: grid; gap: 10px; }
+.stepper { display: grid; grid-template-columns: 1fr 52px 104px 52px; align-items: center; gap: 8px; }
+.stepper-label { font-weight: 700; }
+.stepper-label small { font-weight: 500; color: var(--ink-2); }
+.stepper input.stepper-value { width: 100%; height: 52px; padding: 0 6px; text-align: center; font-size: 1.5rem; font-weight: 800; }
+.step { display: grid; place-items: center; width: 52px; height: 52px; background: var(--panel); border: 2px solid var(--black); border-radius: var(--radius); cursor: pointer; }
+.step:hover { background: var(--yellow); }
+.step:disabled { opacity: .35; cursor: default; background: var(--panel); }
+
+/* the rest of the day, as numbered rows */
+.rows { border-top: 2px solid var(--black); }
+.row { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.row-num { display: grid; place-items: center; width: 36px; height: 36px; background: var(--black); color: #fff; border-radius: 4px; font-weight: 800; }
+.row-name { font-weight: 500; }
+.row-detail { font-weight: 700; text-align: right; }
+.row.now .row-num { background: var(--yellow); color: var(--black); box-shadow: inset 0 0 0 2px var(--black); }
+.row.now .row-name { font-weight: 800; }
+.row.done .row-num { background: var(--good); }
+.row.done .row-name { color: var(--ink-2); }
+.row .picto.small { width: 36px; height: 36px; }
+.notes { display: grid; gap: 8px; }
+.notes li { padding: 12px 14px; background: var(--panel); border: 2px solid var(--black); border-radius: var(--radius); font-weight: 500; }
+
+/* ---------- forms ---------- */
+.fields { display: grid; gap: 12px; }
+.field { display: grid; gap: 5px; }
+.field-label { font-weight: 700; font-size: 15px; }
+.field-hint { font-size: 14px; color: var(--ink-2); }
+input:not([type]), input[type="password"] { width: 100%; height: 52px; padding: 0 14px; background: var(--panel); border: 2px solid var(--black); border-radius: var(--radius); font-size: 1.1rem; font-weight: 500; caret-color: var(--black); }
+input::placeholder { color: #6b6a64; font-weight: 400; }
+input:focus-visible { outline-offset: 2px; }
+.weigh, .retest { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 10px; max-width: 420px; }
+.weigh .btn, .retest .btn { min-height: 52px; }
+.retest .problem { grid-column: 1 / -1; }
+.signin { display: grid; gap: 12px; max-width: 420px; margin-top: 6px; }
+.toggle { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--rule); cursor: pointer; }
+.toggle input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--black); }
+.toggle b { display: block; font-weight: 700; }
+.toggle small { display: block; font-size: 14px; color: var(--ink-2); }
+
+/* ---------- pages ---------- */
+.page > *, .work > *, .block > *, .band > * { min-width: 0; }      /* a wide table scrolls inside its own box, never the page */
+.page { padding: calc(26px + env(safe-area-inset-top, 0px)) 22px 34px; display: grid; gap: 14px; max-width: 820px; }
+.head { margin: calc(-26px - env(safe-area-inset-top, 0px)) -22px 6px; padding: calc(24px + env(safe-area-inset-top, 0px)) 22px 18px; background: var(--yellow); display: grid; gap: 6px; }
+.page h1 { font-size: 2rem; font-weight: 800; line-height: 1.1; letter-spacing: -.015em; }
+.page h2 { margin-top: 26px; font-size: 1.25rem; }
+.page h3 { margin-top: 8px; font-size: 1rem; font-weight: 800; }
+.lede { font-size: 1.05rem; max-width: 62ch; }
+.you .block { margin-top: 20px; padding-top: 4px; }
+.you .block h2 { margin-top: 0; }
+.sync-line { display: flex; gap: 8px; align-items: center; font-weight: 500; font-size: 15px; color: var(--ink-2); }
+.sync-line.error, .sync-line.setup { color: var(--bad); }
+
+.table-wrap { overflow-x: auto; background: var(--panel); border: 2px solid var(--black); border-radius: var(--radius); }
+.plan-table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+.plan-table th { text-align: left; font-size: 14px; font-weight: 700; padding: 10px 14px; background: var(--black); color: #fff; white-space: nowrap; }
+.plan-table td { padding: 11px 14px; border-top: 1px solid var(--rule); vertical-align: top; }
+.plan-table tbody tr:first-child td { border-top: 0; }
+.plan-table td:first-child { font-weight: 700; }
+.figure { white-space: nowrap; font-weight: 700; }
+.tag { display: inline-block; padding: 2px 8px; border: 2px solid var(--black); border-radius: 4px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.tag.good { background: var(--good); border-color: var(--good); color: #fff; }
+
+/* the week: one panel a day */
+.day { background: var(--panel); border: 2px solid var(--black); border-radius: var(--radius); }
+.day summary, .day .summary { display: grid; grid-template-columns: 52px 1fr auto 22px; align-items: center; gap: 14px; padding: 12px 14px 12px 12px; cursor: pointer; list-style: none; }
+.day-chevron { display: grid; transition: rotate .18s var(--ease); }
+.day[open] .day-chevron { rotate: 90deg; }
+.day summary::-webkit-details-marker { display: none; }
+.day .summary { cursor: default; }
+.day-name b { display: block; font-size: 1.15rem; font-weight: 800; line-height: 1.2; }
+.day-name span { font-weight: 500; }
+.day-status { font-size: 14px; font-weight: 700; white-space: nowrap; }
+.day.now { background: var(--yellow); }
+.day.done .day-status { color: var(--good); }
+.day.now .day-status { color: var(--black); }
+.day.now .plan-table td:nth-child(3) { color: var(--on-yellow-2); }
+.day.now .plan-table td, .day.now .plan-table tr { border-color: rgba(11, 11, 11, .28); }
+.day[open] summary { border-bottom: 2px solid var(--black); }
+.day[open] > :not(summary) { margin: 14px; }
+.day[open] > .table-wrap { margin: 0; border: 0; border-radius: 0; background: none; }
+.day[open] > .table-wrap .plan-table th { background: none; color: var(--ink); border-bottom: 1px solid var(--black); }
+.day.rest { background: none; border-style: dashed; }
+
+.day .plan-table td:nth-child(3) { color: var(--ink-2); }
+@media (max-width: 620px) {
+  /* a day's lifts on a phone: the lift and its sets on one line, the weight and note under it */
+  .day .plan-table thead { display: none; }
+  .day .plan-table tr { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; padding: 10px 14px; border-top: 1px solid var(--rule); }
+  .day .plan-table tbody tr:first-child { border-top: 0; }
+  .day .plan-table td { padding: 0; border: 0; }
+  .day .plan-table td:nth-child(3) { grid-column: 1 / -1; font-size: 14.5px; }
+  .day .plan-table td:nth-child(3):empty { display: none; }
+}
+
+/* progress: the road to the goal, on its own yellow band */
+.band { background: var(--yellow); border: 2px solid var(--black); border-radius: var(--radius); padding: 16px 18px 18px; display: grid; gap: 4px; }
+.road-figures { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 10px; }
+.road-now { font-size: clamp(4rem, 20vw, 7rem); font-weight: 800; line-height: .82; letter-spacing: -.035em; font-variant-numeric: proportional-nums; }
+.road-goal { font-size: clamp(2rem, 10vw, 3.2rem); font-weight: 800; line-height: 1; letter-spacing: -.02em; }
+.road-arrow { align-self: center; display: grid; }
+.road-arrow svg { width: clamp(26px, 8vw, 40px); height: auto; }
+.road { position: relative; height: 16px; margin: 20px 8px 30px; border: 2px solid var(--black); border-radius: 3px; background: rgba(255, 255, 255, .55); }
+.road i { position: absolute; inset: 0 auto 0 0; background: var(--black); }
+.road .tick { position: absolute; top: 18px; transform: translateX(-50%); font-size: 13px; font-weight: 700; }
+.road .tick::before { content: ""; position: absolute; left: 50%; top: -6px; width: 2px; height: 6px; background: var(--black); }
+.band .sign-foot { margin-top: 6px; }
+.band .sign-top { padding-bottom: 0; border-bottom: 0; }
+.band .retest { margin-top: 16px; }
+
+/* the plan: a page to read */
+.jump { display: flex; gap: 8px; overflow-x: auto; padding: 4px 22px 10px; margin: 0 -22px; scrollbar-width: none; }
+.jump::-webkit-scrollbar { display: none; }
+.jump a { flex: none; padding: 8px 12px; background: var(--panel); border: 2px solid var(--black); border-radius: var(--radius); font-size: 14.5px; font-weight: 700; text-decoration: none; }
+.jump a:hover { background: var(--yellow); }
+.read { display: grid; gap: 12px; scroll-margin-top: 16px; }
+.read ul { display: grid; gap: 10px; max-width: 68ch; }
+.read li { padding-left: 22px; position: relative; }
+.read li::before { content: ""; position: absolute; left: 0; top: .5em; width: 10px; height: 10px; background: var(--black); border-radius: 2px; }
+.read p { max-width: 68ch; }
+
+/* ---------- navigation ---------- */
+#nav { position: fixed; z-index: 10; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px)); background: var(--black); color: #fff; }
+.brand { display: none; }
+.tab { display: grid; justify-items: center; gap: 2px; padding: 6px 2px 5px; border-radius: 4px; font-size: 12.5px; font-weight: 700; text-decoration: none; color: #fff; }
+.tab:hover { color: var(--yellow); }
+.tab.on { background: var(--yellow); color: var(--black); }
+
+@media (min-width: 960px) {
+  html { font-size: 112.5%; }
+  #nav { top: 0; right: auto; width: var(--rail); grid-template-columns: 1fr; align-content: start; gap: 6px; padding: 22px 16px; }
+  .brand { display: flex; align-items: center; gap: 12px; padding: 0 6px 22px; font-size: 1.3rem; font-weight: 800; text-decoration: none; color: #fff; }
+  .brand .picto { background: var(--yellow); color: var(--black); }
+  .tab { grid-template-columns: 24px 1fr; justify-items: start; align-items: center; gap: 14px; padding: 12px 14px; font-size: 1rem; }
+  #view { margin-left: var(--rail); padding-bottom: 0; }
+  .today { display: grid; grid-template-columns: minmax(380px, 46%) 1fr; align-items: start; min-height: 100dvh; }
+  .sign { position: sticky; top: 0; min-height: 100dvh; padding: 34px 36px 30px; }
+  .sign-figure.l4 { font-size: clamp(7rem, 12.5vw, 11rem); }
+  .sign-figure.l5 { font-size: clamp(5.4rem, 10vw, 9rem); }
+  .sign-title { font-size: 2.3rem; }
+  .sign-picto { width: 84px; height: 84px; }
+  .sign-picto svg { width: 58px; height: 58px; }
+  .work { padding: 34px 40px; max-width: 640px; }
+  .page { padding: 40px 48px 60px; max-width: none; }
+  .page > :not(.head) { max-width: 820px; }
+  .head { margin: -40px -48px 10px; padding: 34px 48px 26px; }
+  .sign-figure { font-size: clamp(9rem, min(17vw, 36vh), 17rem); }
+  .jump { flex-wrap: wrap; overflow: visible; margin: 0; padding: 4px 0 10px; }
+}

@@ -1,0 +1,5 @@
+# local test profiles and scratch
+node_modules/
+*.log
+.impeccable/config.local.json
+.impeccable/reference/

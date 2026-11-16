@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T00:00:00Z",
+  "title": "Design System: Workouts",
+  "extensions": {
+    "colorMeta": {
+      "sign-yellow": { "role": "primary", "displayName": "Sign Yellow", "canonical": "#ffcc00", "tonalRamp": ["#2e2400", "#5c4900", "#8a6e00", "#b89300", "#e6b800", "#ffcc00", "#ffe066", "#fff5cc"] },
+      "sign-black": { "role": "primary", "displayName": "Sign Black", "canonical": "#0b0b0b", "tonalRamp": ["#0b0b0b", "#1a1a1a", "#2e2e2e", "#4a4a4a", "#767676", "#a3a3a3", "#cfcfcf", "#f0f0f0"] },
+      "frame": { "role": "neutral", "displayName": "Frame Lift", "canonical": "#1a1a1a", "tonalRamp": ["#0b0b0b", "#1a1a1a", "#303030", "#4d4d4d", "#787878", "#a5a5a5", "#d0d0d0", "#f0f0f0"] },
+      "ground": { "role": "neutral", "displayName": "Ground", "canonical": "#efefec", "tonalRamp": ["#262624", "#4a4a47", "#73736f", "#9c9c97", "#c4c4bf", "#dededa", "#efefec", "#f7f7f5"] },
+      "panel": { "role": "neutral", "displayName": "Panel White", "canonical": "#ffffff", "tonalRamp": ["#262626", "#4d4d4d", "#737373", "#999999", "#bfbfbf", "#e0e0e0", "#f2f2f2", "#ffffff"] },
+      "rule": { "role": "neutral", "displayName": "Rule", "canonical": "#cfcec7", "tonalRamp": ["#24231f", "#45443f", "#6b6a64", "#8f8e87", "#b0afa8", "#cfcec7", "#e3e2dd", "#f3f3f0"] },
+      "ink-2": { "role": "neutral", "displayName": "Secondary Ink", "canonical": "#45443f", "tonalRamp": ["#1f1e1b", "#45443f", "#5e5d57", "#7a7972", "#99988f", "#b8b7af", "#d6d5cf", "#efeeea"] },
+      "on-yellow-2": { "role": "neutral", "displayName": "Yellow's Dark", "canonical": "#3a2f00", "tonalRamp": ["#1f1900", "#3a2f00", "#5c4a00", "#806800", "#a88a0a", "#cfae2e", "#e8d078", "#f7edc4"] },
+      "on-black-2": { "role": "neutral", "displayName": "Black's Light", "canonical": "#c9c7bd", "tonalRamp": ["#25241f", "#47463f", "#6b6a61", "#8f8d83", "#aeaca2", "#c9c7bd", "#dfded7", "#f2f1ed"] },
+      "good": { "role": "tertiary", "displayName": "Clean Green", "canonical": "#14633a", "tonalRamp": ["#062816", "#0c4226", "#14633a", "#1f8550", "#3fa76f", "#74c598", "#aee0c4", "#e0f4ea"] },
+      "bad": { "role": "tertiary", "displayName": "Miss Red", "canonical": "#b3261e", "tonalRamp": ["#2e0806", "#5c120e", "#8a1c16", "#b3261e", "#d24a41", "#e5837c", "#f2bab6", "#fbe9e7"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The sign's monumental figure. Steps to clamp(5.4rem, 33vw, 9rem) for four characters and clamp(4.2rem, 26vw, 7.4rem) for five; clamp(9rem, min(17vw, 36vh), 17rem) from 960px. Proportional numerals; tabular for the rest clock." },
+      "figure": { "displayName": "Figure", "purpose": "The current max on the Progress band; the goal beside it at clamp(2rem, 10vw, 3.2rem)." },
+      "headline": { "displayName": "Headline", "purpose": "Page title on a yellow header band." },
+      "sign-title": { "displayName": "Sign title", "purpose": "The lift's name on the sign; 2.3rem from 960px." },
+      "title": { "displayName": "Title", "purpose": "Section headings on a page; 1.05rem for a block under the sign, 1.15rem for a day's name." },
+      "body": { "displayName": "Body", "purpose": "Running text; 18px root from 960px. Capped at 62ch, 68ch on the Plan page." },
+      "body-strong": { "displayName": "Body strong", "purpose": "Row names, notices, the sign's second line." },
+      "label": { "displayName": "Label", "purpose": "The sign's top line, field labels, small buttons. The sign's foot at weight 500." },
+      "small": { "displayName": "Small", "purpose": "Hints, day status, table headers (700); tags at 13px 700." },
+      "tab": { "displayName": "Tab", "purpose": "Navigation labels; 1rem in the desktop rail." }
+    },
+    "shadows": [
+      { "name": "current-row-frame", "value": "inset 0 0 0 2px #0b0b0b", "purpose": "An inset frame on the current row's yellow number tile. The only box-shadow in the system; there are no drop shadows." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "The landing leaf of the split-flap and the chevron's quarter turn." },
+      { "name": "flap-fall", "value": ".19s cubic-bezier(.5, 0, 1, .7) both; rotateX(0) to rotateX(-90deg)", "purpose": "The old top half of the sign's figure falls forward on the midline." },
+      { "name": "flap-hold", "value": ".19s steps(1, end) both", "purpose": "The old bottom half stays until the fall is done." },
+      { "name": "flap-land", "value": ".21s .19s cubic-bezier(.16, 1, .3, 1) both; rotateX(90deg) to rotateX(0)", "purpose": "The new bottom half lands. Perspective 900px on the figure's row." },
+      { "name": "chevron-turn", "value": "rotate .18s cubic-bezier(.16, 1, .3, 1); 0 to 90deg", "purpose": "A day panel's chevron turns a quarter when the panel opens." },
+      { "name": "colour-state", "value": "background-color .12s, color .12s", "purpose": "Hover on buttons: a change of colour, not of position." },
+      { "name": "motion-switch", "value": "html[data-motion=\"off\"]", "purpose": "The site's own switch on the You page removes the flap. prefers-reduced-motion is deliberately not consulted." }
+    ],
+    "breakpoints": [
+      { "name": "day-table-stack", "value": "max-width: 620px" },
+      { "name": "rail", "value": "min-width: 960px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "The Sign",
+      "kind": "custom",
+      "refersTo": "sign",
+      "description": "The yellow panel that says the next thing to lift: top line, title, pictogram, monumental figure, ruled foot.",
+      "html": "<div class=\"ds-sign\"><div class=\"ds-sign-top\"><span>Monday · Heavy Push</span><span>Lift 1 of 6</span></div><div class=\"ds-sign-head\"><div><div class=\"ds-sign-title\">Bench press</div><div class=\"ds-sign-line\">Set 3 of 5 · 5 reps</div></div><span class=\"ds-sign-picto\"><svg viewBox=\"0 0 24 24\" width=\"45\" height=\"45\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M1 10.9h22v2.2H1z M3.6 6h3.2v12H3.6z M7.8 8h2.2v8H7.8z M14 8h2.2v8H14z M17.2 6h3.2v12h-3.2z\"/></svg></span></div><div class=\"ds-sign-big\"><span class=\"ds-sign-figure\">140</span><span class=\"ds-sign-unit\">lb</span></div><div class=\"ds-sign-foot\"><span>Bar + 45 + 2.5 each side</span><span class=\"ds-sign-next\">Rest 2 to 3 min<span class=\"ds-sign-arrow\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M3 10.6h11.9l-4.2-4.2 2-2 7.8 7.6-7.8 7.6-2-2 4.2-4.2H3z\"/></svg></span></span></div></div>",
+      "css": ".ds-sign { background: var(--yellow, #ffcc00); color: var(--ink, #0b0b0b); padding: 18px 22px 16px; max-width: 390px; display: flex; flex-direction: column; font-family: var(--font, \"Fira Sans\", \"Segoe UI\", system-ui, sans-serif); } .ds-sign-top { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--black, #0b0b0b); font-size: 15px; font-weight: 700; } .ds-sign-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-top: 18px; } .ds-sign-title { font-size: 1.75rem; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; } .ds-sign-line { font-weight: 500; margin-top: 4px; } .ds-sign-picto { display: inline-grid; place-items: center; flex: none; width: 64px; height: 64px; background: var(--black, #0b0b0b); color: #fff; border-radius: 4px; } .ds-sign-big { display: flex; align-items: flex-end; gap: 10px; padding-top: 40px; } .ds-sign-figure { font-size: 10rem; font-weight: 800; line-height: .8; letter-spacing: -.035em; margin-left: -.03em; } .ds-sign-unit { font-size: 1.5rem; font-weight: 800; padding-bottom: .1em; } .ds-sign-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; margin-top: 18px; padding-top: 10px; border-top: 2px solid var(--black, #0b0b0b); font-size: 15px; font-weight: 500; } .ds-sign-next { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; } .ds-sign-arrow { display: inline-grid; place-items: center; width: 24px; height: 24px; background: var(--black, #0b0b0b); color: #fff; border-radius: 3px; }"
+    },
+    {
+      "name": "The Sign, resting",
+      "kind": "custom",
+      "refersTo": "sign-rest",
+      "description": "The sign inverted to black with a yellow clock while resting between sets.",
+      "html": "<div class=\"ds-rest\"><div class=\"ds-rest-top\"><span>Monday · Heavy Push</span><span>Lift 1 of 6</span></div><div class=\"ds-rest-title\">Rest</div><div class=\"ds-rest-line\">Then Bench press, set 4 of 5 at 140 lb.</div><div class=\"ds-rest-figure\">2:29</div><div class=\"ds-rest-foot\"><span>2 to 3 min</span><span>Bench press, set 4 of 5</span></div></div>",
+      "css": ".ds-rest { background: var(--black, #0b0b0b); color: var(--yellow, #ffcc00); padding: 18px 22px 16px; max-width: 390px; font-family: var(--font, \"Fira Sans\", \"Segoe UI\", system-ui, sans-serif); } .ds-rest-top, .ds-rest-foot { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; color: #fff; } .ds-rest-top { padding-bottom: 10px; border-bottom: 2px solid var(--yellow, #ffcc00); font-weight: 700; } .ds-rest-foot { margin-top: 18px; padding-top: 10px; border-top: 2px solid var(--yellow, #ffcc00); font-weight: 500; } .ds-rest-title { margin-top: 18px; font-size: 1.75rem; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; } .ds-rest-line { margin-top: 4px; font-weight: 500; color: var(--on-black-2, #c9c7bd); } .ds-rest-figure { padding-top: 40px; font-size: 8rem; font-weight: 800; line-height: .8; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Primary Button, big",
+      "kind": "button",
+      "refersTo": "button-primary-big",
+      "description": "The main action of a view: Set done. 68px tall, full width.",
+      "html": "<button class=\"ds-btn-big\" type=\"button\">Set done</button>",
+      "css": ".ds-btn-big { display: inline-flex; align-items: center; justify-content: center; width: 100%; max-width: 346px; min-height: 68px; padding: 0 18px; background: var(--black, #0b0b0b); color: #fff; border: 2px solid var(--black, #0b0b0b); border-radius: var(--radius, 6px); font-family: var(--font, \"Fira Sans\", sans-serif); font-size: 1.25rem; font-weight: 800; cursor: pointer; transition: background-color .12s, color .12s; } .ds-btn-big:hover { background: var(--frame, #1a1a1a); color: var(--yellow, #ffcc00); } .ds-btn-big:focus-visible { outline: 3px solid var(--black, #0b0b0b); outline-offset: 3px; }"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "A secondary action: white, framed in black, yellow on hover.",
+      "html": "<button class=\"ds-btn\" type=\"button\">Sync now</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 18px; background: var(--panel, #fff); color: var(--ink, #0b0b0b); border: 2px solid var(--black, #0b0b0b); border-radius: var(--radius, 6px); font-family: var(--font, \"Fira Sans\", sans-serif); font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color .12s, color .12s; } .ds-btn:hover { background: var(--yellow, #ffcc00); } .ds-btn:focus-visible { outline: 3px solid var(--black, #0b0b0b); outline-offset: 3px; }"
+    },
+    {
+      "name": "Quiet and Danger Buttons",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Quiet for undo and the first step of erasing; danger only as the confirming step.",
+      "html": "<div class=\"ds-actions\"><button class=\"ds-btn-quiet\" type=\"button\">Undo the last set</button><button class=\"ds-btn-danger\" type=\"button\">Yes, erase it</button></div>",
+      "css": ".ds-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-family: var(--font, \"Fira Sans\", sans-serif); } .ds-btn-quiet, .ds-btn-danger { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; font: inherit; font-size: 1rem; font-weight: 700; border-radius: var(--radius, 6px); cursor: pointer; transition: background-color .12s, color .12s; } .ds-btn-quiet { padding: 0 6px; background: none; color: var(--ink, #0b0b0b); border: 2px solid transparent; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; } .ds-btn-quiet:hover { border-color: var(--black, #0b0b0b); } .ds-btn-danger { padding: 0 18px; background: var(--panel, #fff); color: var(--bad, #b3261e); border: 2px solid var(--bad, #b3261e); } .ds-btn-danger:hover { background: var(--bad, #b3261e); color: #fff; } .ds-btn-quiet:focus-visible, .ds-btn-danger:focus-visible { outline: 3px solid var(--black, #0b0b0b); outline-offset: 3px; }"
+    },
+    {
+      "name": "Stepper",
+      "kind": "input",
+      "refersTo": "step",
+      "description": "Adjust the weight or the reps done: label, minus, value, plus.",
+      "html": "<div class=\"ds-stepper\"><span class=\"ds-stepper-label\">Weight <small>lb</small></span><button class=\"ds-step\" type=\"button\" aria-label=\"Less\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"square\" aria-hidden=\"true\"><path d=\"M5 12h14\"/></svg></button><input class=\"ds-stepper-value\" value=\"140\" inputmode=\"decimal\" aria-label=\"Weight\"><button class=\"ds-step\" type=\"button\" aria-label=\"More\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"square\" aria-hidden=\"true\"><path d=\"M5 12h14 M12 5v14\"/></svg></button></div>",
+      "css": ".ds-stepper { display: grid; grid-template-columns: 1fr 52px 104px 52px; align-items: center; gap: 8px; max-width: 346px; font-family: var(--font, \"Fira Sans\", sans-serif); color: var(--ink, #0b0b0b); } .ds-stepper-label { font-weight: 700; } .ds-stepper-label small { font-weight: 500; color: var(--ink-2, #45443f); font-size: inherit; } .ds-step { display: grid; place-items: center; width: 52px; height: 52px; background: var(--panel, #fff); color: inherit; border: 2px solid var(--black, #0b0b0b); border-radius: var(--radius, 6px); cursor: pointer; } .ds-step:hover { background: var(--yellow, #ffcc00); } .ds-stepper-value { width: 100%; height: 52px; padding: 0 6px; text-align: center; background: var(--panel, #fff); color: inherit; border: 2px solid var(--black, #0b0b0b); border-radius: var(--radius, 6px); font: inherit; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; } .ds-step:focus-visible, .ds-stepper-value:focus-visible { outline: 3px solid var(--black, #0b0b0b); outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A labelled field with a hint: 52px, white, framed in black.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">New max</span><input class=\"ds-input\" placeholder=\"180\" inputmode=\"decimal\"><span class=\"ds-field-hint\">In pounds, rounded to 5.</span></label>",
+      "css": ".ds-field { display: grid; gap: 5px; max-width: 260px; font-family: var(--font, \"Fira Sans\", sans-serif); color: var(--ink, #0b0b0b); } .ds-field-label { font-weight: 700; font-size: 15px; } .ds-field-hint { font-size: 14px; color: var(--ink-2, #45443f); } .ds-input { width: 100%; height: 52px; padding: 0 14px; background: var(--panel, #fff); color: inherit; border: 2px solid var(--black, #0b0b0b); border-radius: var(--radius, 6px); font: inherit; font-size: 1.1rem; font-weight: 500; caret-color: var(--black, #0b0b0b); } .ds-input::placeholder { color: #6b6a64; font-weight: 400; } .ds-input:focus-visible { outline: 3px solid var(--black, #0b0b0b); outline-offset: 2px; }"
+    },
+    {
+      "name": "Numbered Rows",
+      "kind": "custom",
+      "refersTo": "row-num",
+      "description": "The rest of the day: a finished row, the current row, a row to come.",
+      "html": "<ol class=\"ds-rows\"><li class=\"ds-row ds-row-done\"><span class=\"ds-row-num\">1</span><span class=\"ds-row-name\">Bench press</span><span class=\"ds-row-detail\">5 · 5 · 5 · 5 · 5</span></li><li class=\"ds-row ds-row-now\"><span class=\"ds-row-num\">2</span><span class=\"ds-row-name\">Incline DB press</span><span class=\"ds-row-detail\">3 x 8-10</span></li><li class=\"ds-row\"><span class=\"ds-row-num\">3</span><span class=\"ds-row-name\">Seated DB shoulder press</span><span class=\"ds-row-detail\">3 x 8-10</span></li></ol>",
+      "css": ".ds-rows { margin: 0; padding: 0; list-style: none; max-width: 346px; border-top: 2px solid var(--black, #0b0b0b); font-family: var(--font, \"Fira Sans\", sans-serif); color: var(--ink, #0b0b0b); font-variant-numeric: tabular-nums; } .ds-row { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule, #cfcec7); } .ds-row-num { display: grid; place-items: center; width: 36px; height: 36px; background: var(--black, #0b0b0b); color: #fff; border-radius: 4px; font-weight: 800; } .ds-row-name { font-weight: 500; } .ds-row-detail { font-weight: 700; text-align: right; } .ds-row-now .ds-row-num { background: var(--yellow, #ffcc00); color: var(--black, #0b0b0b); box-shadow: inset 0 0 0 2px var(--black, #0b0b0b); } .ds-row-now .ds-row-name { font-weight: 800; } .ds-row-done .ds-row-num { background: var(--good, #14633a); } .ds-row-done .ds-row-name { color: var(--ink-2, #45443f); }"
+    },
+    {
+      "name": "Day Panel",
+      "kind": "card",
+      "refersTo": "day",
+      "description": "One panel a day in the week: pictogram square, day and name, status, chevron. Today's is yellow.",
+      "html": "<div class=\"ds-days\"><div class=\"ds-day ds-day-now\"><span class=\"ds-picto\"><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M1 10.9h22v2.2H1z M3.6 6h3.2v12H3.6z M7.8 8h2.2v8H7.8z M14 8h2.2v8H14z M17.2 6h3.2v12h-3.2z\"/></svg></span><span class=\"ds-day-name\"><b>Monday</b><span>Heavy Push</span></span><span class=\"ds-day-status\">Today</span><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"square\" aria-hidden=\"true\"><path d=\"M9 5l7 7-7 7\"/></svg></div><div class=\"ds-day\"><span class=\"ds-picto\"><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M2 2.6h20v2.3H2z M12 5.6a2.3 2.3 0 1 0 0 4.6 2.3 2.3 0 0 0 0-4.6z M5.9 4.9h2.5l1.9 5.9h3.4l1.9-5.9h2.5l-2.5 7.6v3.7l1.1 5.2h-2.5L12 17.2l-2.2 4.2H7.3l1.1-5.2v-3.7z\"/></svg></span><span class=\"ds-day-name\"><b>Tuesday</b><span>Pull</span></span><span class=\"ds-day-status\">To come</span><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"square\" aria-hidden=\"true\"><path d=\"M9 5l7 7-7 7\"/></svg></div></div>",
+      "css": ".ds-days { display: grid; gap: 14px; max-width: 346px; font-family: var(--font, \"Fira Sans\", sans-serif); color: var(--ink, #0b0b0b); } .ds-day { display: grid; grid-template-columns: 52px 1fr auto 22px; align-items: center; gap: 14px; padding: 12px 14px 12px 12px; background: var(--panel, #fff); border: 2px solid var(--black, #0b0b0b); border-radius: var(--radius, 6px); } .ds-day-now { background: var(--yellow, #ffcc00); } .ds-picto { display: inline-grid; place-items: center; width: 52px; height: 52px; background: var(--black, #0b0b0b); color: #fff; border-radius: 4px; } .ds-day-name b { display: block; font-size: 1.15rem; font-weight: 800; line-height: 1.2; } .ds-day-name span { font-weight: 500; } .ds-day-status { font-size: 14px; font-weight: 700; white-space: nowrap; }"
+    },
+    {
+      "name": "Tags",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "A session's outcome in the log: every rep hit, or short.",
+      "html": "<span class=\"ds-tag ds-tag-good\">Every rep</span> <span class=\"ds-tag\">Short</span>",
+      "css": ".ds-tag { display: inline-block; padding: 2px 8px; border: 2px solid var(--black, #0b0b0b); border-radius: 4px; color: var(--ink, #0b0b0b); font-family: var(--font, \"Fira Sans\", sans-serif); font-size: 13px; font-weight: 700; white-space: nowrap; } .ds-tag-good { background: var(--good, #14633a); border-color: var(--good, #14633a); color: #fff; }"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "The black bar of five destinations; the current one is a yellow tile.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-tab ds-tab-on\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"currentColor\" fill-rule=\"evenodd\" aria-hidden=\"true\"><path d=\"M2 3.5h20v12.2h-8.6V21h-2.8v-5.3H2z M6.8 8.6v2h6.4l-1.9 1.9 1.4 1.4 4.3-4.3-4.3-4.3-1.4 1.4 1.9 1.9z\"/></svg>Today</a><a class=\"ds-tab\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"currentColor\" fill-rule=\"evenodd\" aria-hidden=\"true\"><path d=\"M3 5h3.2V2.8h2.5V5h6.6V2.8h2.5V5H21v16H3z M5.5 10.2v8.3h13V10.2z\"/></svg>Week</a><a class=\"ds-tab\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M3 3h2.5v15.5H21V21H3z M7.6 16.6v-5h2.8v5z M12 16.6V7.4h2.8v9.2z M16.4 16.6V4.6h2.8v12z\"/></svg>Progress</a><a class=\"ds-tab\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"currentColor\" fill-rule=\"evenodd\" aria-hidden=\"true\"><path d=\"M5 2h14v20H5z M8 6.4v2h8v-2z M8 10.4v2h8v-2z M8 14.4v2h5v-2z\"/></svg>Plan</a><a class=\"ds-tab\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M12 2.4a4.6 4.6 0 1 0 0 9.2 4.6 4.6 0 0 0 0-9.2z M3.2 21.6c.6-5.4 4-8.2 8.8-8.2s8.2 2.8 8.8 8.2z\"/></svg>You</a></nav>",
+      "css": ".ds-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 8px; max-width: 390px; background: var(--black, #0b0b0b); font-family: var(--font, \"Fira Sans\", sans-serif); } .ds-tab { display: grid; justify-items: center; gap: 2px; padding: 6px 2px 5px; border-radius: 4px; font-size: 12.5px; font-weight: 700; text-decoration: none; color: #fff; } .ds-tab:hover { color: var(--yellow, #ffcc00); } .ds-tab-on, .ds-tab-on:hover { background: var(--yellow, #ffcc00); color: var(--black, #0b0b0b); } .ds-tab:focus-visible { outline: 3px solid var(--yellow, #ffcc00); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Next Lift Signage",
+    "overview": "Workouts is an airport sign system pointed at a barbell. One saturated yellow sign always says the next thing to lift: the lift, the set, the weight at monumental scale, the plates, the rest. The screen is a decision point, read at arm's length in a brightly lit gym with one thumb free, so everything is cut the way a terminal sign is cut: yellow panels that own whole regions, black lettering, white pictograms on black squares, and a quiet grey-white ground for anything that is a list.\n\nThere is one theme, chosen from that scene (`color-scheme: light`); there is no dark mode. The one dark surface is the sign itself while resting, when the panel inverts to black and the clock is lit in yellow. The mode is Operate; the Plan page is Read, with the same materials set at reading measure.\n\nDepth is flat. Structure comes from 2px black frames, ruled lines and full-bleed colour, never from shadow. Almost nothing moves: the sign's figure turns over as a split-flap when it changes to another figure of the same kind, and a day panel's chevron turns a quarter when it opens.",
+    "keyCharacteristics": [
+      "One sign, one instruction: the yellow panel is the first thing on Today and the largest thing on the screen.",
+      "Three sign colours carry everything: yellow, black, white, on a grey-white ground. Green and red appear only as state.",
+      "Numerals at monumental scale in Fira Sans 800, sentence case throughout.",
+      "Filled pictograms on black squares; a handful of line marks for controls.",
+      "2px black frames and rules; no shadows, no gradients.",
+      "Buttons 48px tall, steppers and fields 52px; the main action is 68px tall and full width. Only an action inside a row drops to 40px."
+    ],
+    "rules": [
+      { "name": "The Whole Region Rule", "body": "Yellow owns a region edge to edge or a tile corner to corner. It is not a stripe, an underline, a border colour or a highlight behind a word.", "section": "colors" },
+      { "name": "The Own Dark Rule", "body": "Secondary text takes the dark of the surface it sits on: `on-yellow-2` on yellow, `on-black-2` on black, `ink-2` on ground and white. Grey text never sits on yellow.", "section": "colors" },
+      { "name": "The State Only Rule", "body": "Green means a set or session was logged clean; red means something is wrong or will erase. Neither is used for emphasis or decoration.", "section": "colors" },
+      { "name": "The Inversion Rule", "body": "Resting is shown by the sign turning black with yellow lettering, yellow rules and a yellow pictogram square. No other surface inverts.", "section": "colors" },
+      { "name": "The Sentence Case Rule", "body": "No uppercase labels and no letter-spaced small caps anywhere. Emphasis is weight 700 or 800.", "section": "typography" },
+      { "name": "The Monument Rule", "body": "Each sign or band has one monumental figure. Negative tracking (-0.035em) and a line-height near 0.8 belong to that figure only.", "section": "typography" },
+      { "name": "The Flat Sign Rule", "body": "Nothing floats. If a surface needs to stand out, give it a 2px black frame, fill it yellow, or fill it black.", "section": "elevation" },
+      { "name": "The Sign's Own Rules Rule", "body": "A ruled line belongs to a sign or a list, runs its full width, and is drawn in that surface's ink. A coloured border on one side of a box, used as an accent, is not part of this system.", "section": "shapes" },
+      { "name": "The Filled Figure Rule", "body": "Pictograms are solid silhouettes on a square. Outline icons are reserved for the five control marks.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do open Today with the sign and put one monumental figure on it; everything else on the sign is one line.",
+      "Do let yellow own a whole region or tile, and letter it in black.",
+      "Do frame surfaces with 2px black and separate rows with 1px `rule`.",
+      "Do put pictograms on a black square at about 70% of its size, filled, on the 24px grid.",
+      "Do keep buttons 48px tall and steppers and fields 52px, with the main action 68px and full width; 40px is for an action inside a row only.",
+      "Do write in sentence case and carry emphasis with weight 700 or 800.",
+      "Do give secondary text the dark of its own surface (`on-yellow-2`, `on-black-2`, `ink-2`).",
+      "Do tie any motion to the site's own switch on the You page.",
+      "Do set destructive and undo actions apart at the foot of the view."
+    ],
+    "donts": [
+      "Don't use a coloured border on one side of a box as decoration. The ruled lines at a sign's top and foot are the sign's own rules, in its ink, and are not this.",
+      "Don't move anything under the pointer on hover. Hover changes colour and nothing else.",
+      "Don't add motion beyond the split-flap of the sign's figure and the quarter turn of a day panel's chevron.",
+      "Don't key motion to `prefers-reduced-motion`; the owner's switch decides.",
+      "Don't add a second theme or a dark mode. The resting sign is the only dark surface.",
+      "Don't use shadows, gradients, blurs or glows.",
+      "Don't use green or red for anything but logged-clean and error or erase.",
+      "Don't set grey text on yellow, or yellow text on white or the ground.",
+      "Don't use outline icons for anything but plus, minus, undo, sync and chevron."
+    ]
+  }
+}
