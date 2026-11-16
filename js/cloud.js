@@ -1,12 +1,12 @@
-// Accounts and sync. Workouts uses the same accounts as Xenon (xenon.justloofy.dev): the same Supabase project,
-// where a username is the address <name>@users.justloofy.dev. Signing in here never changes anything of Xenon's.
+// Accounts and sync, in the Workouts Supabase project (its own, separate from Xenon's). A username is turned into the
+// address <name>@users.justloofy.dev, which is never written to, so "Confirm email" must stay off in the project.
 // A lifter's data is one row in the table public.workouts (see supabase/workouts.sql), readable and writable only
 // by its owner. This file talks to Supabase with plain fetch; the key below is the project's publishable key, which
 // is meant to be public.
 import { state, absorb, onChange } from './store.js';
 
-const URL_ = 'https://bgezqqzxoffufpbhkbzl.supabase.co';
-const KEY = 'sb_publishable_1HuWlrbiZZDot6OWYDuKtw_SSJLdCoM';
+const URL_ = 'https://nzzpolqcdjdpwxjmlvfq.supabase.co';
+const KEY = 'sb_publishable_STVi91oeW9RvV5de2gTW1g_0dkheLrm';
 const EMAIL_DOMAIN = 'users.justloofy.dev';
 const SESSION = 'workouts.session';
 
@@ -46,7 +46,21 @@ export async function signIn(username, password) {
   if (!/^[a-z0-9][a-z0-9_.-]{2,23}$/.test(name)) throw new Error('A username is 3 to 24 letters, digits, dots, dashes or underscores.');
   if (!password) throw new Error('Type your password.');
   try { adopt(await call('/auth/v1/token?grant_type=password', { method: 'POST', body: { email: `${name}@${EMAIL_DOMAIN}`, password: String(password) } })); }
-  catch (err) { if (err.status === 400) throw new Error('That username and password do not match an account. Accounts are made on xenon.justloofy.dev.'); throw err; }
+  catch (err) { if (err.status === 400) throw new Error('That username and password do not match an account.'); throw err; }
+  say({ phase: 'idle', error: '' });
+  await syncNow();
+}
+
+/** Makes an account and signs in with it. */
+export async function signUp(username, password) {
+  const name = String(username || '').trim().toLowerCase();
+  if (!/^[a-z0-9][a-z0-9_.-]{2,23}$/.test(name)) throw new Error('A username is 3 to 24 letters, digits, dots, dashes or underscores.');
+  if (String(password || '').length < 6) throw new Error('A password needs at least 6 characters.');
+  let data;
+  try { data = await call('/auth/v1/signup', { method: 'POST', body: { email: `${name}@${EMAIL_DOMAIN}`, password: String(password), data: { username: name } } }); }
+  catch (err) { if (/already|registered|exists/i.test(err.message)) throw new Error('That username is taken.'); throw err; }
+  if (!data || !data.access_token) throw new Error('The account was made but cannot sign in until "Confirm email" is switched off in the Supabase project.');
+  adopt(data);
   say({ phase: 'idle', error: '' });
   await syncNow();
 }

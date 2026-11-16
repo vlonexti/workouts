@@ -453,15 +453,20 @@ function youView() {
     const name = field('Username', { inputmode: 'text', autocomplete: 'username', autocapitalize: 'none', spellcheck: 'false', id: 'user' });
     const pass = field('Password', { type: 'password', inputmode: 'text', autocomplete: 'current-password', id: 'pass' });
     const problem = h('p.problem', { role: 'alert' }, ui.message);
-    const button = h('button.btn.primary', { type: 'submit' }, 'Sign in');
+    const making = !!ui.making;
+    if (making) pass.input.setAttribute('autocomplete', 'new-password');
+    const label = making ? 'Make the account' : 'Sign in';
+    const button = h('button.btn.primary', { type: 'submit' }, label);
     const submit = async e => {
       e.preventDefault();
-      button.disabled = true; button.textContent = 'Signing in…'; problem.textContent = '';
-      try { await cloud.signIn(name.input.value, pass.input.value); ui.message = ''; render(); }
-      catch (err) { problem.textContent = err.message; button.disabled = false; button.textContent = 'Sign in'; }
+      button.disabled = true; button.textContent = making ? 'Making it…' : 'Signing in…'; problem.textContent = '';
+      try { await (making ? cloud.signUp : cloud.signIn)(name.input.value, pass.input.value); ui.message = ''; ui.making = false; render(); }
+      catch (err) { problem.textContent = err.message; button.disabled = false; button.textContent = label; }
     };
-    put(page, h('section.block', h('h2', 'Account'), h('p', 'Sign in to keep one log on your phone and your computer. It is the same account as on Xenon; make one at ', h('a', { href: 'https://xenon.justloofy.dev', rel: 'noopener' }, 'xenon.justloofy.dev'), '. Without signing in, the log stays on this device.'),
-      h('form.signin', { onsubmit: submit }, name.el, pass.el, button, problem)));
+    put(page, h('section.block', h('h2', making ? 'Make an account' : 'Account'),
+      h('p', making ? 'Pick a username and a password. Your log on this device comes with you.' : 'Sign in to keep one log on your phone and your computer. Without signing in, the log stays on this device.'),
+      h('form.signin', { onsubmit: submit }, name.el, pass.el, button, problem),
+      h('p.aside', making ? 'Have an account? ' : 'New here? ', h('a', { href: '#/you', onclick: e => { e.preventDefault(); ui.making = !making; render(); } }, making ? 'Sign in' : 'Make an account'))));
   }
 
   // numbers

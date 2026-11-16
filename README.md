@@ -44,9 +44,9 @@ averages, merging two devices) without a browser.
 
 ## Accounts and sync
 
-Workouts uses the same accounts as Xenon (<https://xenon.justloofy.dev>): the same Supabase project, where a
-username is the address `<name>@users.justloofy.dev`. Signing in here changes nothing of Xenon's. Accounts are made on
-Xenon.
+Workouts has its own Supabase project (`nzzpolqcdjdpwxjmlvfq`), separate from Xenon's. Accounts are made on the You
+page: a username becomes the address `<name>@users.justloofy.dev`, which is never written to, so "Confirm email" must
+stay off in the project (Authentication, Sign In / Providers, Email).
 
 A lifter's data is one row in the table `public.workouts`, readable and writable only by its owner. To switch sync
 on, paste `supabase/workouts.sql` into the Supabase project's SQL Editor once and press Run. Until then the site

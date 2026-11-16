@@ -48,8 +48,9 @@ the bulk and cut advice are the owner's own, and the site applies them to each p
 
 ## Capabilities and Constraints
 
-- Sign-in uses the same accounts as Xenon: the same Supabase project, usernames as `<name>@users.justloofy.dev`.
-  The workouts data lives in its own table with row-level security; nothing of Xenon's is changed.
+- Accounts live in the Workouts Supabase project (its own, separate from Xenon's; the owner set it up on
+  2026-11-16). Usernames become `<name>@users.justloofy.dev`; accounts are made on the You page. The data lives in
+  the table `workouts` with row-level security.
 - Everyone follows the same routine with their own numbers (bench max, body weight, goal). Editing the routine's
   days and exercises is not part of the product.
 - The log is kept in the browser as well and syncs when signed in, so it works with a poor gym signal.
