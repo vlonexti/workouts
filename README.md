@@ -59,7 +59,7 @@ repository.
 
 The site is served by GitHub Pages straight from the `main` branch (Settings, Pages, "Deploy from a branch", `main`,
 `/ (root)`). The `CNAME` file sets the address `workouts.justloofy.dev`; the domain needs a CNAME record
-`workouts` pointing at `vlonexti.github.io`. A push to `main` is a new version of the site.
+`workouts` pointing at `whimsyman.github.io`. A push to `main` is a new version of the site.
 
 ## The look
 

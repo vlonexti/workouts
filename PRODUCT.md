@@ -9,7 +9,7 @@ web
 ## Stack
 
 delegated: plain static HTML, CSS and JavaScript modules with no build step, served by GitHub Pages from the
-repository root at `workouts.justloofy.dev` (repo `vlonexti/workouts`). Chosen because the host is GitHub Pages, the
+repository root at `workouts.justloofy.dev` (repo `whimsyman/workouts`). Chosen because the host is GitHub Pages, the
 site is one person's tool shared with a few friends, and the owner's other site (Xenon) is built the same way. It
 installs to a phone's home screen through a web manifest.
 
@@ -60,7 +60,7 @@ the bulk and cut advice are the owner's own, and the site applies them to each p
 
 ## Brand Commitments
 
-- Address: `workouts.justloofy.dev`. Repository: `vlonexti/workouts`.
+- Address: `workouts.justloofy.dev`. Repository: `whimsyman/workouts`.
 - The owner chose that it gets a look of its own rather than Xenon's.
 - No name beyond "Workouts" has been chosen.
 
